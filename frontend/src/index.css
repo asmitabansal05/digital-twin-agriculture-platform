@@ -1,0 +1,60 @@
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+
+  --background: 84 33% 97%;
+  --foreground: 156 26% 12%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 156 26% 12%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 156 26% 12%;
+
+  --primary: 148 63% 24%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 82 38% 92%;
+  --secondary-foreground: 150 33% 18%;
+
+  --muted: 82 24% 92%;
+  --muted-foreground: 155 10% 42%;
+
+  --accent: 164 54% 35%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 72% 48%;
+  --destructive-foreground: 0 0% 100%;
+
+  --success: 142 56% 36%;
+  --success-foreground: 0 0% 100%;
+
+  --warning: 38 92% 50%;
+  --warning-foreground: 35 92% 12%;
+
+  --border: 87 20% 84%;
+  --input: 87 20% 84%;
+  --ring: 148 63% 32%;
+
+  --agri-canopy: 148 63% 24%;
+  --agri-leaf: 124 45% 38%;
+  --agri-mint: 153 49% 88%;
+  --agri-field: 82 38% 92%;
+  --agri-soil: 28 31% 34%;
+  --agri-water: 199 76% 46%;
+  --agri-sun: 43 90% 55%;
+
+  --radius: 0.5rem;
+}
+
+@layer components {
+  .agri-surface {
+    @apply rounded-lg border border-border bg-card text-card-foreground shadow-soft;
+  }
+
+  .agri-page {
+    @apply mx-auto w-full max-w-screen-2xl px-4 py-6 sm:px-6 lg:px-8;
+  }
+}
