@@ -77,8 +77,8 @@ function Dashboard() {
         let cancelled = false;
 
         Promise.all([
-            api.get(`http://localhost:8081/dashboard/${selectedFarm}`),
-            api.get(`http://localhost:8081/farms/${selectedFarm}/fields`),
+            api.get(`/dashboard/${selectedFarm}`),
+            api.get(`/farms/${selectedFarm}/fields`),
         ])
             .then(([dashboardRes, fieldsRes]) => {
                 if (cancelled) return;

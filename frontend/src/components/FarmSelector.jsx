@@ -12,7 +12,7 @@ function FarmSelector({ selectedFarm, setSelectedFarm, onSelectedFarmChange, com
   const [query, setQuery] = useState("");
 
   useEffect(() => {
-    api.get("http://localhost:8081/farms")
+    api.get("/farms")
       .then((res) => {
         setFarms(res.data);
       })

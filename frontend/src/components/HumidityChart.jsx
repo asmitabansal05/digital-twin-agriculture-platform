@@ -16,13 +16,13 @@ function HumidityChart({ farmId }) {
   const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
-    api.get(`http://localhost:8081/farms/${farmId}/fields`)
+    api.get(`/farms/${farmId}/fields`)
       .then((fieldRes) => {
         if (fieldRes.data.length === 0) return;
 
         const fieldId = fieldRes.data[0].field_id;
 
-        api.get(`http://localhost:8081/sensor-readings/history/${fieldId}`)
+        api.get(`/sensor-readings/history/${fieldId}`)
           .then((sensorRes) => {
             const data = sensorRes.data
               .reverse()

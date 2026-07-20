@@ -131,7 +131,7 @@ function DigitalTwin() {
     setIsLoading(true);
     setLiveData(null);
     api
-      .get(`http://localhost:8081/dashboard/${selectedFarmId}`)
+      .get(`/dashboard/${selectedFarmId}`)
       .then((res) => { if (!cancelled) setLiveData(res.data); })
       .catch(() => {})
       .finally(() => { if (!cancelled) setIsLoading(false); });
