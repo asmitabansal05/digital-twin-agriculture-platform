@@ -50,7 +50,7 @@ function FarmMap({ farmId }) {
     const [expanded, setExpanded] = useState(false);
 
     useEffect(() => {
-        api.get(`http://localhost:8081/farms/${farmId}/fields`)
+        api.get(`http://digital-twin-backends.onrender.com/farms/${farmId}/fields`)
             .then((res) => {
                 setFields(res.data);
             })
