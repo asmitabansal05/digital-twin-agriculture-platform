@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8081",
+  baseURL: "https://digital-twin-backends.onrender.com",
 });
 
 export default api;
