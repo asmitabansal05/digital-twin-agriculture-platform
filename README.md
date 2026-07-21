@@ -24,55 +24,16 @@ The platform provides an interactive dashboard that visualizes sensor readings, 
 
 # ✨ Features
 
-- 🌱 Digital Twin representation of an agricultural field
-- 📊 Interactive Dashboard for monitoring farm conditions
-- 🌡️ Visualization of Temperature, Humidity, Rainfall and Soil Moisture
-- 💚 Crop Health Score calculation based on environmental parameters
-- 💧 Irrigation Requirement estimation
-- 🌾 Yield Prediction based on sensor readings
-- 📈 Historical Sensor Data visualization
-- 📉 Interactive Analytics with charts and graphs
-- ⚙️ Simulation module for testing different environmental conditions
-- ☁️ Cloud deployment using Render
+- 🌱 Digital Twin framework for smart agriculture
+- 📊 Interactive dashboard for agricultural monitoring
+- 📡 Synthetic sensor data generation and real-time visualization
+- 🤖 AI-assisted crop analytics and decision support
+- 📈 Historical trend analysis with interactive charts
+- ⚙️ Environmental scenario simulation
+- ☁️ Cloud-based full-stack deployment
 
 ---
 
-# 🧠 Health Score Logic
-
-The Crop Health Score is calculated using environmental parameters including:
-
-- Soil Moisture
-- Temperature
-- Humidity
-
-The calculated score is further used to determine:
-
-- Crop Health Status
-- Stress Level
-- Irrigation Requirement
-- Estimated Yield
-
-This demonstrates how Digital Twin technology can provide meaningful agricultural insights even using simulated sensor data.
-
----
-
-# 🗂 Synthetic Sensor Data Generation
-
-Instead of collecting data from physical IoT devices, this platform currently generates realistic agricultural sensor readings using a Python-based data generator.
-
-The generated dataset includes:
-
-- Temperature
-- Humidity
-- Soil Moisture
-- Rainfall
-- Timestamp
-
-The synthetic data is stored in a PostgreSQL database and is used throughout the application for visualization, analytics, and simulation.
-
-The system architecture has been designed so that synthetic data can be replaced by real IoT sensor data in future versions without major architectural changes.
-
----
 
 # 🏗 System Architecture
 
@@ -145,31 +106,6 @@ digital-twin-agriculture-platform
 
 ---
 
-# 📸 Screenshots
-
-## Dashboard
-
-*(Add Dashboard screenshot here)*
-
----
-
-## Digital Twin
-
-*(Add Digital Twin page screenshot here)*
-
----
-
-## Analytics
-
-*(Add Analytics page screenshot here)*
-
----
-
-## Simulation
-
-*(Add Simulation page screenshot here)*
-
----
 
 # ⚙️ Installation
 
@@ -216,8 +152,6 @@ The current platform uses synthetic sensor data. Future enhancements include:
 - Drone-based crop monitoring
 - Satellite imagery integration for large-scale field analysis
 - Weather API integration for real-time forecasting
-- AI-powered pest and disease prediction
-- Smart irrigation automation
 - Mobile application for farmers
 - Multi-user and multi-farm management
 - Advanced machine learning models for yield prediction
