@@ -99,10 +99,10 @@ digital-twin-agriculture-platform
 ├── backend                  # Spring Boot Backend
 ├── ml                       # Machine Learning components
 ├── twin-engine              # Digital Twin logic
+├── database                 # PostgreSQL database
 ├── docs                     # Project documentation
 ├── README.md
 └── LICENSE
-```
 
 ---
 
