@@ -130,7 +130,7 @@ cd backend/backend
 mvn spring-boot:run
 ```
 
-# 🗄️ Database
+## Database
 
 The platform uses **PostgreSQL** as its primary database for storing farm information, field details, sensor readings, digital twin states, and prediction results.
 
