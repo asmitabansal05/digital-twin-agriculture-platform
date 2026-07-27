@@ -130,6 +130,58 @@ cd backend/backend
 mvn spring-boot:run
 ```
 
+# 🗄️ Database
+
+The platform uses **PostgreSQL** as its primary database for storing farm information, field details, sensor readings, digital twin states, and prediction results.
+
+A complete database dump containing the schema and sample data is included in this repository:
+
+```text
+database/project_database.sql
+```
+
+### Database Tables
+
+The database consists of the following tables:
+
+| Table | Description |
+|-------|-------------|
+| farms | Stores farm information |
+| fields | Stores field details for each farm |
+| sensor_readings | Stores environmental sensor data such as temperature, humidity, rainfall, and soil moisture |
+| twin_states | Stores the digital twin health status and field conditions |
+| predictions | Stores AI-generated predictions and recommendations |
+
+### Accessing the Database
+
+To view the database on another system:
+
+1. Install **PostgreSQL** and **pgAdmin**.
+2. Create a new PostgreSQL database (e.g., `digital_twin_agriculture`).
+3. Open **pgAdmin** and connect to the database.
+4. Open the **Query Tool**.
+5. Open the file:
+
+```text
+database/project_database.sql
+```
+
+6. Execute the SQL script.
+
+This will recreate all database tables along with the sample data used in the project.
+
+### Viewing Table Data
+
+Execute the following queries to view the contents of each table:
+
+```sql
+SELECT * FROM farms;
+SELECT * FROM fields;
+SELECT * FROM sensor_readings;
+SELECT * FROM twin_states;
+SELECT * FROM predictions;
+```
+
 ---
 
 # ☁️ Deployment
