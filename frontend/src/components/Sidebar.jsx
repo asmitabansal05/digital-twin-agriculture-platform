@@ -1,24 +1,42 @@
 import { NavLink } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AgricultureIcon from "@mui/icons-material/Agriculture";
-import DeviceHubIcon from "@mui/icons-material/DeviceHub";
 import ScienceIcon from "@mui/icons-material/Science";
 import BarChartIcon from "@mui/icons-material/BarChart";
 
 const NAV_LINKS = [
-  { to: "/dashboard",    label: "Dashboard",    Icon: DashboardIcon,   desc: "Overview & KPIs"    },
-  { to: "/digital-twin", label: "Digital Twin", Icon: DeviceHubIcon,   desc: "Live field map"     },
-  { to: "/farms",        label: "Farms",        Icon: AgricultureIcon, desc: "Manage farms"       },
-  { to: "/simulation",   label: "Simulation",   Icon: ScienceIcon,     desc: "AI crop scenarios"  },
-  { to: "/analytics",    label: "Analytics",    Icon: BarChartIcon,    desc: "Reports & trends"   },
+  {
+    to: "/dashboard",
+    label: "Dashboard",
+    Icon: DashboardIcon,
+    desc: "Overview & KPIs",
+  },
+  {
+    to: "/digital-twin",
+    label: "Farms",
+    Icon: AgricultureIcon,
+    desc: "Live field map",
+  },
+  {
+    to: "/simulation",
+    label: "Simulation",
+    Icon: ScienceIcon,
+    desc: "AI crop scenarios",
+  },
+  {
+    to: "/analytics",
+    label: "Analytics",
+    Icon: BarChartIcon,
+    desc: "Reports & trends",
+  },
 ];
 
 /* Live status data — static for now, replace with real system health endpoint later */
 const SYSTEM_STATUS = [
-  { label: "Twin Engine",  value: "Online",  ok: true  },
-  { label: "AI Model",     value: "Ready",   ok: true  },
-  { label: "Sensor Feed",  value: "Active",  ok: true  },
-  { label: "Last Sync",    value: "2m ago",  ok: true  },
+  { label: "Twin Engine", value: "Online", ok: true },
+  { label: "AI Model", value: "Ready", ok: true },
+  { label: "Sensor Feed", value: "Active", ok: true },
+  { label: "Last Sync", value: "2m ago", ok: true },
 ];
 
 function Sidebar() {
@@ -26,7 +44,8 @@ function Sidebar() {
     <div
       style={{
         width: "228px",
-        background: "linear-gradient(180deg, #14532d 0%, #166534 55%, #14532d 100%)",
+        background:
+          "linear-gradient(180deg, #14532d 0%, #166534 55%, #14532d 100%)",
         color: "white",
         display: "flex",
         flexDirection: "column",
@@ -60,11 +79,26 @@ function Sidebar() {
           >
             🌱
           </div>
-          <div>
-            <div style={{ fontWeight: "700", fontSize: "16px", lineHeight: 1.2, letterSpacing: "-0.01em" }}>
-              AgriTwin
-            </div>
-            <div style={{ fontSize: "10px", opacity: 0.5, fontWeight: "600", letterSpacing: "0.1em", marginTop: "2px" }}>
+
+          <div
+            style={{
+              fontWeight: "700",
+              fontSize: "16px",
+              lineHeight: 1.2,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            AgriTwin
+
+            <div
+              style={{
+                fontSize: "10px",
+                opacity: 0.5,
+                fontWeight: "600",
+                letterSpacing: "0.1em",
+                marginTop: "2px",
+              }}
+            >
               DIGITAL TWIN AI
             </div>
           </div>
@@ -85,6 +119,7 @@ function Sidebar() {
         >
           Menu
         </p>
+
         {NAV_LINKS.map(({ to, label, Icon, desc }) => (
           <NavLink
             key={to}
@@ -98,7 +133,9 @@ function Sidebar() {
               borderRadius: "9px",
               textDecoration: "none",
               color: "white",
-              background: isActive ? "rgba(255,255,255,0.16)" : "transparent",
+              background: isActive
+                ? "rgba(255,255,255,0.16)"
+                : "transparent",
               borderLeft: isActive
                 ? "3px solid rgba(255,255,255,0.75)"
                 : "3px solid transparent",
@@ -108,12 +145,33 @@ function Sidebar() {
           >
             {({ isActive }) => (
               <>
-                <Icon style={{ fontSize: "20px", flexShrink: 0, opacity: isActive ? 1 : 0.85 }} />
+                <Icon
+                  style={{
+                    fontSize: "20px",
+                    flexShrink: 0,
+                    opacity: isActive ? 1 : 0.85,
+                  }}
+                />
+
                 <div>
-                  <div style={{ fontSize: "14px", fontWeight: isActive ? "700" : "500", lineHeight: 1.2 }}>
+                  <div
+                    style={{
+                      fontSize: "14px",
+                      fontWeight: isActive ? "700" : "500",
+                      lineHeight: 1.2,
+                    }}
+                  >
                     {label}
                   </div>
-                  <div style={{ fontSize: "11px", opacity: 0.5, marginTop: "1px", fontWeight: "400" }}>
+
+                  <div
+                    style={{
+                      fontSize: "11px",
+                      opacity: 0.5,
+                      marginTop: "1px",
+                      fontWeight: "400",
+                    }}
+                  >
                     {desc}
                   </div>
                 </div>
@@ -123,7 +181,7 @@ function Sidebar() {
         ))}
       </nav>
 
-      {/* ── System Status — fills the visual middle space ── */}
+      {/* ── System Status ── */}
       <div
         style={{
           margin: "4px 14px 0",
@@ -146,6 +204,7 @@ function Sidebar() {
         >
           System Status
         </p>
+
         {SYSTEM_STATUS.map(({ label, value, ok }) => (
           <div
             key={label}
@@ -156,7 +215,16 @@ function Sidebar() {
               marginBottom: "8px",
             }}
           >
-            <span style={{ fontSize: "12px", opacity: 0.6, fontWeight: "500" }}>{label}</span>
+            <span
+              style={{
+                fontSize: "12px",
+                opacity: 0.6,
+                fontWeight: "500",
+              }}
+            >
+              {label}
+            </span>
+
             <span
               style={{
                 display: "inline-flex",
@@ -173,10 +241,13 @@ function Sidebar() {
                   height: "5px",
                   borderRadius: "50%",
                   background: ok ? "#4ade80" : "#f87171",
-                  boxShadow: ok ? "0 0 5px #4ade80" : "0 0 5px #f87171",
+                  boxShadow: ok
+                    ? "0 0 5px #4ade80"
+                    : "0 0 5px #f87171",
                   display: "inline-block",
                 }}
               />
+
               {value}
             </span>
           </div>
@@ -194,13 +265,33 @@ function Sidebar() {
           flexShrink: 0,
         }}
       >
-        <div style={{ fontSize: "12px", fontWeight: "700", opacity: 0.75, marginBottom: "3px" }}>
+        <div
+          style={{
+            fontSize: "12px",
+            fontWeight: "700",
+            opacity: 0.75,
+            marginBottom: "3px",
+          }}
+        >
           PAU Research Station
         </div>
-        <div style={{ fontSize: "11px", opacity: 0.42 }}>
+
+        <div
+          style={{
+            fontSize: "11px",
+            opacity: 0.42,
+          }}
+        >
           Ludhiana, Punjab · India
         </div>
-        <div style={{ fontSize: "11px", opacity: 0.38, marginTop: "2px" }}>
+
+        <div
+          style={{
+            fontSize: "11px",
+            opacity: 0.38,
+            marginTop: "2px",
+          }}
+        >
           30.9010°N · 75.8573°E
         </div>
       </div>
