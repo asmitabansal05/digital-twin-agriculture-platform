@@ -1,10 +1,17 @@
 import { NavLink } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AgricultureIcon from "@mui/icons-material/Agriculture";
 import ScienceIcon from "@mui/icons-material/Science";
 import BarChartIcon from "@mui/icons-material/BarChart";
 
 const NAV_LINKS = [
+  {
+    to: "/",
+    label: "Home",
+    Icon: HomeIcon,
+    desc: "Main page",
+  },
   {
     to: "/dashboard",
     label: "Dashboard",
