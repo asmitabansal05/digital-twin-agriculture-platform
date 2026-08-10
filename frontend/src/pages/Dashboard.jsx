@@ -206,9 +206,9 @@ function Dashboard() {
                                 <h1 className="mt-1 text-2xl font-bold leading-tight text-foreground sm:text-3xl">
                                     Digital Twin Dashboard
                                 </h1>
-                                <p className="mt-1 text-sm leading-6 text-muted-foreground">
-                                    Monitoring <strong className="text-foreground">{selectedFarmName}</strong>
-                                </p>
+                               
+                                
+                                
                             </div>
                             <div className="flex flex-wrap items-center gap-2">
                                 <StatusBadge>AI Online</StatusBadge>
