@@ -8,7 +8,7 @@ The project was developed as part of an internship at **Punjab Agricultural Univ
 
 # 🚀 Live Demo
 
-🌐 **Website:** https://digital-twin-agriculture-platform.onrender.com
+🌐 **Website:** https://digital-twin-agriculture-frontend.onrender.com
 
 ---
 
