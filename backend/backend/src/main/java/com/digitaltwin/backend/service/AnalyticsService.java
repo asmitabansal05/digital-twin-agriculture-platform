@@ -168,7 +168,7 @@ public class AnalyticsService {
                                     double[] irrigationOut) {
         try {
             // Spawn predict_batch.py — ONE process for ALL rows + ALL models
-            ProcessBuilder pb = new ProcessBuilder("python", BATCH_SCRIPT_PATH);
+            ProcessBuilder pb = new ProcessBuilder("python3", BATCH_SCRIPT_PATH);
             // Python's stderr flows to the Spring Boot console for visibility
             pb.redirectError(ProcessBuilder.Redirect.INHERIT);
             Process process = pb.start();

@@ -18,7 +18,7 @@ public class YieldPredictionService {
         try {
 
             ProcessBuilder pb = new ProcessBuilder(
-                    "python",
+                    "python3",
                     "ml/predict_yield.py",
                     String.valueOf(temperature),
                     String.valueOf(humidity),

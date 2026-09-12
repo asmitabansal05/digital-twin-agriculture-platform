@@ -18,7 +18,7 @@ public class MLPredictionService {
         try {
 
             ProcessBuilder pb = new ProcessBuilder(
-                    "python",
+                    "python3",
                     "ml/predict.py",
                     String.valueOf(temperature),
                     String.valueOf(humidity),
