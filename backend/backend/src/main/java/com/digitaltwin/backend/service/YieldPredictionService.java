@@ -1,12 +1,20 @@
 package com.digitaltwin.backend.service;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class YieldPredictionService {
+
+    @Value("${ML_API_URL:http://localhost:5000}")
+    private String mlApiUrl;
+
+    private final RestTemplate restTemplate = new RestTemplate();
 
     public double predictYield(
             double temperature,
@@ -14,44 +22,30 @@ public class YieldPredictionService {
             double soilMoisture,
             double rainfall
     ) {
-
         try {
+            Map<String, Object> body = new HashMap<>();
+            body.put("temperature", temperature);
+            body.put("humidity", humidity);
+            body.put("soil_moisture", soilMoisture);
+            body.put("rainfall", rainfall);
 
-            ProcessBuilder pb = new ProcessBuilder(
-                    "python3",
-                    "ml/predict_yield.py",
-                    String.valueOf(temperature),
-                    String.valueOf(humidity),
-                    String.valueOf(soilMoisture),
-                    String.valueOf(rainfall)
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<Map<String, Object>> request =
+                    new HttpEntity<>(body, headers);
+
+            ResponseEntity<Map> response = restTemplate.postForEntity(
+                    mlApiUrl + "/predict/yield",
+                    request,
+                    Map.class
             );
 
-            pb.redirectErrorStream(true);
-
-            Process process = pb.start();
-
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream())
-            );
-
-            String line;
-            String lastLine = "";
-
-            while ((line = reader.readLine()) != null) {
-                lastLine = line;
-            }
-
-            process.waitFor();
-
-            return Double.parseDouble(lastLine);
+            return ((Number) response.getBody().get("prediction")).doubleValue();
 
         } catch (Exception e) {
-
             e.printStackTrace();
-
             return -1;
-
         }
-
     }
 }

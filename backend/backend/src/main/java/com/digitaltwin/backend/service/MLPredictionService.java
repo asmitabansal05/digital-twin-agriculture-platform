@@ -1,12 +1,20 @@
 package com.digitaltwin.backend.service;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class MLPredictionService {
+
+    @Value("${ML_API_URL:http://localhost:5000}")
+    private String mlApiUrl;
+
+    private final RestTemplate restTemplate = new RestTemplate();
 
     public double predictHealth(
             double temperature,
@@ -14,49 +22,42 @@ public class MLPredictionService {
             double soilMoisture,
             double rainfall
     ) {
-
-        try {
-
-            ProcessBuilder pb = new ProcessBuilder(
-                    "python3",
-                    "ml/predict.py",
-                    String.valueOf(temperature),
-                    String.valueOf(humidity),
-                    String.valueOf(soilMoisture),
-                    String.valueOf(rainfall)
-            );
-
-            // Merge stderr and stdout
-            pb.redirectErrorStream(true);
-            Process process = pb.start();
-
-            BufferedReader reader =
-                    new BufferedReader(
-                            new InputStreamReader(process.getInputStream())
-                    );
-            String line;
-            String lastLine = "";
-
-            while ((line = reader.readLine()) != null) {
-                System.out.println("PYTHON >> " + line);
-                lastLine = line;
-            }
-
-            int exitCode = process.waitFor();
-
-            System.out.println("Python Exit Code: " + exitCode);
-
-            return Double.parseDouble(lastLine);
-
-        }
-        catch (Exception e) {
-
-            System.out.println("========== ML Prediction Error ==========");
-            e.printStackTrace();
-
-            return -1;
-        }
-
+        return predict("/predict/health", temperature, humidity, soilMoisture, rainfall);
     }
 
+    private double predict(
+            String endpoint,
+            double temperature,
+            double humidity,
+            double soilMoisture,
+            double rainfall
+    ) {
+        try {
+            Map<String, Object> body = new HashMap<>();
+            body.put("temperature", temperature);
+            body.put("humidity", humidity);
+            body.put("soil_moisture", soilMoisture);
+            body.put("rainfall", rainfall);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<Map<String, Object>> request =
+                    new HttpEntity<>(body, headers);
+
+            ResponseEntity<Map> response = restTemplate.postForEntity(
+                    mlApiUrl + endpoint,
+                    request,
+                    Map.class
+            );
+
+            Object prediction = response.getBody().get("prediction");
+
+            return ((Number) prediction).doubleValue();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
 }
