@@ -1,13 +1,24 @@
-FROM eclipse-temurin:17-jdk
+//it creates one container containing everything the backend needs
+
+FROM python:3.11-slim
 
 WORKDIR /app
 
+# Install Java 17
+RUN apt-get update \
+    && apt-get install -y openjdk-17-jdk \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy the complete repository
 COPY . .
 
-RUN chmod +x mvnw
+# Install Python dependencies required by ML
+RUN pip install --no-cache-dir pandas scikit-learn joblib
 
-RUN ./mvnw clean package -DskipTests
+# Build Spring Boot application
+RUN chmod +x backend/mvnw
+RUN cd backend && ./mvnw clean package -DskipTests
 
 EXPOSE 8080
 
-CMD ["java","-jar","target/backend-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "backend/target/backend-0.0.1-SNAPSHOT.jar"]

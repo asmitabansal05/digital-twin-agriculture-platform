@@ -23,7 +23,7 @@ private Integer readingId;
 
     private Double rainfall;
 
-    @Column(name = "reading_time")
+    @Column(name = "recorded_at")
     private LocalDateTime readingTime;
     
     

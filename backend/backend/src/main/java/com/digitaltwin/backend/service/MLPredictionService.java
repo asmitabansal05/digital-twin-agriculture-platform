@@ -19,7 +19,7 @@ public class MLPredictionService {
 
             ProcessBuilder pb = new ProcessBuilder(
                     "python",
-                    "C:\\Users\\ASMITA BANSAL\\Downloads\\DigitalTwinAgriculture\\ml\\predict.py",
+                    "ML/predict.py",
                     String.valueOf(temperature),
                     String.valueOf(humidity),
                     String.valueOf(soilMoisture),
@@ -28,14 +28,12 @@ public class MLPredictionService {
 
             // Merge stderr and stdout
             pb.redirectErrorStream(true);
-
             Process process = pb.start();
 
             BufferedReader reader =
                     new BufferedReader(
                             new InputStreamReader(process.getInputStream())
                     );
-
             String line;
             String lastLine = "";
 
@@ -51,14 +49,12 @@ public class MLPredictionService {
             return Double.parseDouble(lastLine);
 
         }
-
         catch (Exception e) {
 
             System.out.println("========== ML Prediction Error ==========");
             e.printStackTrace();
 
             return -1;
-
         }
 
     }

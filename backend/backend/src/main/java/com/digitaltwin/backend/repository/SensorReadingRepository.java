@@ -13,4 +13,6 @@ public interface SensorReadingRepository extends JpaRepository<SensorReading, In
 
     List<SensorReading> findTop20ByFieldIdOrderByReadingIdDesc(Integer fieldId);
 
+    List<SensorReading> findTop14ByFieldIdOrderByReadingIdDesc(Integer fieldId);
+
 }

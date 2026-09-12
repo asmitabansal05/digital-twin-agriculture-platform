@@ -198,6 +198,7 @@ function Simulation() {
   const [params,       setParams]       = useState({ ...DEFAULTS });
   const [result,       setResult]       = useState(null);
   const [loading,      setLoading]      = useState(false);
+  const [error,        setError]        = useState(null);
   const [activePreset, setActivePreset] = useState("normal");
   const [runCount,     setRunCount]     = useState(0);
 
@@ -220,6 +221,7 @@ function Simulation() {
 
   const handleRun = async () => {
     setLoading(true);
+    setError(null);
     try {
       const res = await api.post("/simulate", {
         temperature:  params.temperature,
@@ -229,20 +231,12 @@ function Simulation() {
       });
       setResult(res.data);
       setRunCount((n) => n + 1);
-    } catch {
-      // Demo fallback when backend is offline
-      const hs = Math.min(98, Math.max(30, Math.round(
-        72 + (params.soilMoisture - 40) * 0.22 + (30 - params.temperature) * 0.15 + params.humidity * 0.05
-      )));
-      const py = parseFloat(Math.max(2, (6.2 + (params.soilMoisture - 40) * 0.03 + params.rainfall * 0.06)).toFixed(1));
-      const ir = parseFloat(Math.max(0, (12 - params.soilMoisture * 0.08 - params.rainfall * 0.15)).toFixed(1));
-      setResult({
-        healthScore:           hs,
-        predictedYield:        py,
-        irrigationRequirement: ir,
-        recommendation: `Under these simulated conditions (${params.temperature}°C, ${params.humidity}% humidity, ${params.soilMoisture}% soil moisture, ${params.rainfall} mm rainfall), crop health is expected to reach ${hs}%. ${ir > 6 ? `Apply approximately ${ir} mm of irrigation within the next 12 hours to maintain optimal growing conditions. ` : "Current moisture levels are adequate — no immediate irrigation is needed. "}${params.temperature > 36 ? "High temperature stress detected. Consider shade netting or adjusted irrigation timing. " : ""}Projected yield: ${py} t/ha.`,
-      });
-      setRunCount((n) => n + 1);
+    } catch (err) {
+      setError(
+        err?.response?.data?.message ||
+        "Unable to reach the simulation backend. Please ensure the Spring Boot server is running on port 8081."
+      );
+      setResult(null);
     } finally {
       setLoading(false);
     }
@@ -314,6 +308,21 @@ function Simulation() {
       {/* ── Content ── */}
       <div className="relative z-10 min-h-0 flex-1 overflow-auto px-10 py-5">
         <div className="mx-auto flex h-full max-w-[1300px] flex-col gap-5">
+
+          {/* ── Backend Error Banner ── */}
+          {error && (
+            <div
+              className="shrink-0 flex items-center gap-3 rounded-2xl px-6 py-4"
+              style={{
+                background: "rgba(220,38,38,0.07)",
+                border: "1.5px solid rgba(220,38,38,0.25)",
+                backdropFilter: "blur(12px)",
+              }}
+            >
+              <AlertTriangle size={18} style={{ color: "#dc2626", flexShrink: 0 }} />
+              <p style={{ fontSize: "14px", fontWeight: "600", color: "#dc2626" }}>{error}</p>
+            </div>
+          )}
 
           {/* ══════════════════════════════════════
               AI Scenario Builder card

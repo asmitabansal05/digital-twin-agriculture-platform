@@ -19,7 +19,7 @@ const NAV_LINKS = [
     desc: "Overview & KPIs",
   },
   {
-    to: "/digital-twin",
+    to: "/farms",
     label: "Farms",
     Icon: AgricultureIcon,
     desc: "Live field map",

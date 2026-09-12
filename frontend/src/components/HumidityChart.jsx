@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Droplets } from "lucide-react";
 import api from "../services/api";
 import {
@@ -12,30 +12,99 @@ import {
 } from "recharts";
 import ChartCard from "./ChartCard";
 
-function HumidityChart({ farmId }) {
-  const [chartData, setChartData] = useState([]);
+// One stroke color per field index. First field keeps the existing agri-water color.
+const FIELD_STROKES = [
+  "hsl(var(--agri-water))",
+  "hsl(var(--primary))",
+  "hsl(var(--warning))",
+  "hsl(var(--destructive))",
+];
 
-  useEffect(() => {
+/**
+ * HumidityChart
+ * @param {number} farmId       - Currently selected farm ID
+ * @param {number} pollInterval - (optional) ms between background refreshes; default 10 000
+ *
+ * Fetches ALL fields for the farm, then fetches sensor history for each field.
+ * Each field is plotted as a separate line using the field_name from the backend.
+ *
+ * chartData shape (for recharts multi-line):
+ *   [{ reading: 1, "Wheat Field": 72.4, "Rice Field": 80.1 }, ...]
+ *
+ * fields shape:
+ *   [{ field_id: 1, field_name: "Wheat Field" }, { field_id: 2, field_name: "Rice Field" }]
+ */
+function HumidityChart({ farmId, pollInterval = 10000 }) {
+  const [chartData, setChartData] = useState([]);
+  const [fields, setFields] = useState([]);
+
+  const fetchData = useCallback(() => {
     api.get(`/farms/${farmId}/fields`)
       .then((fieldRes) => {
-        if (fieldRes.data.length === 0) return;
+        if (!fieldRes.data || fieldRes.data.length === 0) {
+          setChartData([]);
+          setFields([]);
+          return;
+        }
 
-        const fieldId = fieldRes.data[0].field_id;
+        const fieldList = fieldRes.data;
 
-        api.get(`/sensor-readings/history/${fieldId}`)
-          .then((sensorRes) => {
-            const data = sensorRes.data
-              .reverse()
-              .map((item, index) => ({
-                reading: index + 1,
-                humidity: item.humidity
-              }));
+        // Fetch history for every field in parallel
+        return Promise.all(
+          fieldList.map((field) =>
+            api.get(`/sensor-readings/history/${field.field_id}`)
+              .then((sensorRes) => ({
+                field,
+                readings: [...sensorRes.data].reverse(),
+              }))
+              .catch(() => null) // omit fields with no history / fetch error
+          )
+        ).then((results) => {
+          // Drop any fields that had a fetch error or empty history
+          const valid = results.filter(
+            (r) => r !== null && r.readings.length > 0
+          );
 
-            setChartData(data);
-          });
+          if (valid.length === 0) {
+            setChartData([]);
+            setFields([]);
+            return;
+          }
+
+          // Align readings by index position across all fields.
+          // Use the length of the longest field's history.
+          const maxLen = Math.max(...valid.map((r) => r.readings.length));
+
+          const merged = [];
+          for (let i = 0; i < maxLen; i++) {
+            const point = { reading: i + 1 };
+            valid.forEach(({ field, readings }) => {
+              if (i < readings.length) {
+                point[field.field_name] = readings[i].humidity;
+              }
+            });
+            merged.push(point);
+          }
+
+          setChartData(merged);
+          setFields(valid.map((r) => r.field));
+        });
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.error("[HumidityChart] Fetch failed:", err.message ?? err);
+      });
   }, [farmId]);
+
+  // Initial load
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  // Background polling
+  useEffect(() => {
+    const interval = setInterval(fetchData, pollInterval);
+    return () => clearInterval(interval);
+  }, [fetchData, pollInterval]);
 
   return (
     <ChartCard
@@ -56,15 +125,18 @@ function HumidityChart({ farmId }) {
               boxShadow: "0 10px 30px rgba(15, 23, 42, 0.12)",
             }}
           />
-          <Line
-            type="monotone"
-            dataKey="humidity"
-            name="Humidity"
-            stroke="hsl(var(--agri-water))"
-            strokeWidth={3}
-            dot={false}
-            activeDot={{ r: 5 }}
-          />
+          {fields.map((field, idx) => (
+            <Line
+              key={field.field_id}
+              type="monotone"
+              dataKey={field.field_name}
+              name={field.field_name}
+              stroke={FIELD_STROKES[idx % FIELD_STROKES.length]}
+              strokeWidth={3}
+              dot={false}
+              activeDot={{ r: 5 }}
+            />
+          ))}
         </LineChart>
       </ResponsiveContainer>
     </ChartCard>
