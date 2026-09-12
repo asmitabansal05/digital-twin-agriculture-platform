@@ -86,7 +86,7 @@ function BackendErrorBanner({ onRetry, isRetrying }) {
                 <p className="mt-2 max-w-md text-sm text-muted-foreground">
                     Could not connect to the Spring Boot backend at{" "}
                     <code className="rounded bg-muted/60 px-1 py-0.5 font-mono text-xs">
-                        http://localhost:8081
+                        https://digital-twin-agriculture-api.onrender.com
                     </code>
                     . Please make sure the backend is running.
                 </p>
