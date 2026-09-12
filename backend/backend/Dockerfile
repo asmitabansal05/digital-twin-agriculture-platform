@@ -1,4 +1,4 @@
-//it creates one container containing everything the backend needs
+#it creates one container containing everything the backend needs
 
 FROM python:3.11-slim
 
