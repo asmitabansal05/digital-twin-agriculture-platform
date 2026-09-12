@@ -19,7 +19,7 @@ public class IrrigationPredictionService {
 
             ProcessBuilder pb = new ProcessBuilder(
                     "python",
-                    "ML/predict_irrigation.py",
+                    "ml/predict_irrigation.py",
                     String.valueOf(temperature),
                     String.valueOf(humidity),
                     String.valueOf(soilMoisture),

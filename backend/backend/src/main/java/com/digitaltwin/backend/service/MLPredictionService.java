@@ -19,7 +19,7 @@ public class MLPredictionService {
 
             ProcessBuilder pb = new ProcessBuilder(
                     "python",
-                    "ML/predict.py",
+                    "ml/predict.py",
                     String.valueOf(temperature),
                     String.valueOf(humidity),
                     String.valueOf(soilMoisture),

@@ -53,7 +53,7 @@ import java.util.List;
 public class AnalyticsService {
 
     private static final String BATCH_SCRIPT_PATH =
-            "ML/predict_batch.py";
+            "ml/predict_batch.py";
 
     private static final DateTimeFormatter DATE_FMT =
             DateTimeFormatter.ofPattern("MMM d");
